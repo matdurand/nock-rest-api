@@ -1,6 +1,6 @@
 {
   "name": "nock-rest-api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +8,8 @@
     "test": "jest",
     "test:cov": "jest --coverage",
     "build": "bili",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "release": "standard-version"
   },
   "files": [
     "dist"
@@ -38,6 +39,7 @@
     "prettier": "1.15.2",
     "rollup-plugin-typescript2": "0.22.1",
     "semantic-release": "^15.13.20",
+    "standard-version": "^7.0.0",
     "ts-jest": "24.0.0",
     "typescript": "3.5.3"
   },
