@@ -1,4 +1,4 @@
-#nock-rest-api
+# nock-rest-api
 
 This library provides an extension to the [nock](https://github.com/nock/nock) library to make it easy to mock a REST API.
 
