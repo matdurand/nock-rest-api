@@ -13,6 +13,10 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matdurand/nock-rest-api.git"
+  },
   "author": "Mathieu Durand",
   "license": "MIT",
   "dependencies": {
