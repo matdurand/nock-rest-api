@@ -79,4 +79,30 @@ describe("rest-api", () => {
     });
     expect(scope.forParams({ category: "tool" }).times()).toBe(1);
   });
+
+  it("should match the right url when declaring multiple nested urls", async () => {
+    const scopeProduct = nockRestApi("http://localhost:4001")
+      .get("/api/products/{id}")
+      .replyOnce(() => {
+        return {
+          payload: { id: "1", name: "product1" }
+        };
+      });
+    const scopeCategories = nockRestApi("http://localhost:4001")
+      .get("/api/products/{id}/categories")
+      .replyOnce(() => {
+        return {
+          payload: [{ name: "cat1" }, { name: "cat2" }]
+        };
+      });
+
+    const response = await axios.get(
+      "http://localhost:4001/api/products/1/categories"
+    );
+
+    expect(scopeProduct.times()).toBe(0);
+    expect(scopeCategories.times()).toBe(1);
+    expect(response.data.length).toBe(2);
+    expect(response.data).toEqual([{ name: "cat1" }, { name: "cat2" }]);
+  });
 });

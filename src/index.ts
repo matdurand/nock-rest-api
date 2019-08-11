@@ -44,7 +44,7 @@ class Method {
     resolver: (params: any) => Response
   ): ApiScope {
     const uriMatcher = (path: string) => {
-      const uriMatches = this.template.test(path);
+      const uriMatches = this.template.test(path, { strict: true });
       if (uriMatches) {
         return maximumTimes < 1 || !this.hasReachMaximumCalls(maximumTimes);
       }
@@ -99,6 +99,10 @@ class ApiScope {
       this.template,
       this.accumulator.callsNotForParams(params)
     );
+  }
+
+  public times(): number {
+    return this.accumulator.totalCount();
   }
 }
 
