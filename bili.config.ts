@@ -8,7 +8,7 @@ const config: Config = {
   output: {
     fileName: "index.js",
     format: ["cjs"],
-    moduleName: "nock-rest-api"
+    moduleName: "nock-uri-template"
   },
   plugins: {
     typescript2: {
