@@ -1,6 +1,7 @@
 # nock-uri-template
 
-This library provides an extension to the [nock](https://github.com/nock/nock) library to make it easy to mock a REST API.
+This library provides an extension to the [nock](https://github.com/nock/nock) library to make it easy to mock urls
+using uri templates instead of using only regexes with nock.
 
 ## Installation
 
@@ -36,7 +37,7 @@ Under the hood, nock-uri-template uses [this library](https://github.com/geraint
 Here is an example of how to mock an API
 
 ```
-const scope = nockRestApi("http://localhost:4001")
+const scope = nockUriTemplate("http://localhost:4001")
   .get("/api/products/{id}")
   .reply(
     (params: any): Response => ({
@@ -62,7 +63,7 @@ of calls the mock API will reply to, you can use `replyOnce` or `replyTimes` met
 ## Expectations
 
 Whatever test runner you are using, nock-uri-template provides an object to make assertions on. Using the object returned by
-`nockRestApi`, you can expect on the calls made to the api. The following examples are using Jest, but they work with
+`nockUriTemplate`, you can expect on the calls made to the api. The following examples are using Jest, but they work with
 any runner.
 
 ### Expecting on calls made using certain parameters

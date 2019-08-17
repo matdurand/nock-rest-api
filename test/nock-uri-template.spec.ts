@@ -1,16 +1,16 @@
 import nock from "nock";
 import _ from "lodash";
 import axios from "axios";
-import nockRestApi, { Response } from "../src";
+import nockUriTemplate, { Response } from "../src";
 
-describe("rest-api", () => {
+describe("nock-uri-template", () => {
   beforeEach(() => {});
   afterEach(() => {
     nock.cleanAll();
   });
 
   it("should return 204 by default when there is no payload", async () => {
-    nockRestApi("http://localhost:4001")
+    nockUriTemplate("http://localhost:4001")
       .get("/api/products/{id}")
       .reply((): Response => ({}));
 
@@ -25,7 +25,7 @@ describe("rest-api", () => {
       { id: "2", name: "Hammer" },
       { id: "3", name: "Screwdriver" }
     ];
-    const scope = nockRestApi("http://localhost:4001")
+    const scope = nockUriTemplate("http://localhost:4001")
       .get("/api/products/{id}")
       .reply(
         (params: any): Response => {
@@ -48,7 +48,7 @@ describe("rest-api", () => {
       { id: "2", name: "Hammer", category: "tool" },
       { id: "3", name: "Screwdriver", category: "tool" }
     ];
-    const scope = nockRestApi("http://localhost:4001")
+    const scope = nockUriTemplate("http://localhost:4001")
       .get("/api/products{?category}")
       .replyOnce(
         (params: any): any => {
@@ -81,14 +81,14 @@ describe("rest-api", () => {
   });
 
   it("should match the right url when declaring multiple nested urls", async () => {
-    const scopeProduct = nockRestApi("http://localhost:4001")
+    const scopeProduct = nockUriTemplate("http://localhost:4001")
       .get("/api/products/{id}")
       .replyOnce(() => {
         return {
           payload: { id: "1", name: "product1" }
         };
       });
-    const scopeCategories = nockRestApi("http://localhost:4001")
+    const scopeCategories = nockUriTemplate("http://localhost:4001")
       .get("/api/products/{id}/categories")
       .replyOnce(() => {
         return {

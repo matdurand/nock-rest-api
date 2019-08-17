@@ -3,11 +3,11 @@ import _ from "lodash";
 
 const uriTemplates = require("uri-templates");
 
-const nockRestApi = (basePath: string) => {
-  return new RestApi(basePath);
+const nockUriTemplate = (basePath: string) => {
+  return new NockUriTemplate(basePath);
 };
 
-class RestApi {
+class NockUriTemplate {
   constructor(readonly basePath: string) {}
 
   public get(uri: string) {
@@ -32,7 +32,7 @@ class Method {
   private template: any;
 
   constructor(
-    readonly restApi: RestApi,
+    readonly nockUriTemplate: NockUriTemplate,
     readonly method: string,
     readonly uri: string
   ) {
@@ -51,7 +51,7 @@ class Method {
       return false;
     };
 
-    let scope = nock(this.restApi.basePath).persist() as any;
+    let scope = nock(this.nockUriTemplate.basePath).persist() as any;
     scope = scope[this.method.toLowerCase()](uriMatcher).reply(
       (uri: string) => {
         const params = this.template.fromUri(uri);
@@ -146,4 +146,4 @@ export interface Response {
   payload?: any;
 }
 
-export default nockRestApi;
+export default nockUriTemplate;
