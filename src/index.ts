@@ -3,12 +3,12 @@ import _ from "lodash";
 
 const uriTemplates = require("uri-templates");
 
-const nockUriTemplate = (basePath: string) => {
-  return new NockUriTemplate(basePath);
+const nockUriTemplate = (baseUrl: string) => {
+  return new NockUriTemplate(baseUrl);
 };
 
 class NockUriTemplate {
-  constructor(readonly basePath: string) {}
+  constructor(readonly baseUrl: string) {}
 
   public get(uri: string) {
     return new Method(this, "GET", uri);
@@ -36,7 +36,11 @@ class Method {
     readonly method: string,
     readonly uri: string
   ) {
-    this.template = uriTemplates(uri);
+    let baseUrlPath = new URL(this.nockUriTemplate.baseUrl).pathname;
+    if (baseUrlPath.endsWith("/")) {
+      baseUrlPath = baseUrlPath.substring(0, baseUrlPath.length - 1);
+    }
+    this.template = uriTemplates(baseUrlPath + uri);
   }
 
   public replyTimes(
@@ -44,14 +48,16 @@ class Method {
     resolver: (params: any) => Response
   ): ApiScope {
     const uriMatcher = (path: string) => {
-      const uriMatches = this.template.test(path, { strict: true });
+      const uriMatches = this.template.test(path, {
+        strict: true
+      });
       if (uriMatches) {
         return maximumTimes < 1 || !this.hasReachMaximumCalls(maximumTimes);
       }
       return false;
     };
 
-    let scope = nock(this.nockUriTemplate.basePath).persist() as any;
+    let scope = nock(this.nockUriTemplate.baseUrl).persist() as any;
     scope = scope[this.method.toLowerCase()](uriMatcher).reply(
       (uri: string) => {
         const params = this.template.fromUri(uri);

@@ -42,6 +42,52 @@ describe("nock-uri-template", () => {
     expect(scope.notForParams({ id: "1" }).urls()).toEqual([]);
   });
 
+  it("should expose url using a base url with a path prefix", async () => {
+    const products = [
+      { id: "1", name: "Nail" },
+      { id: "2", name: "Hammer" },
+      { id: "3", name: "Screwdriver" }
+    ];
+    const scope = nockUriTemplate("http://localhost:4001/api")
+      .get("/products/{id}")
+      .reply(
+        (params: any): Response => {
+          return {
+            payload: _.find(products, ["id", params.id])
+          };
+        }
+      );
+
+    const response = await axios.get("http://localhost:4001/api/products/1");
+
+    expect(response.data).toEqual({ id: "1", name: "Nail" });
+    expect(scope.forParams({ id: "1" }).times()).toBe(1);
+    expect(scope.notForParams({ id: "1" }).urls()).toEqual([]);
+  });
+
+  it("should expose url using a base url with a path with a tailing slash", async () => {
+    const products = [
+      { id: "1", name: "Nail" },
+      { id: "2", name: "Hammer" },
+      { id: "3", name: "Screwdriver" }
+    ];
+    const scope = nockUriTemplate("http://localhost:4001/api/")
+      .get("/products/{id}")
+      .reply(
+        (params: any): Response => {
+          return {
+            payload: _.find(products, ["id", params.id])
+          };
+        }
+      );
+
+    const response = await axios.get("http://localhost:4001/api/products/1");
+
+    expect(response.data).toEqual({ id: "1", name: "Nail" });
+    expect(scope.forParams({ id: "1" }).times()).toBe(1);
+    expect(scope.notForParams({ id: "1" }).urls()).toEqual([]);
+  });
+
   it("should expose url using query variable", async () => {
     const products = [
       { id: "1", name: "Nail", category: "material" },
