@@ -1,6 +1,7 @@
 import nock from "nock";
 import _ from "lodash";
 
+const { URL } = require("url");
 const uriTemplates = require("uri-templates");
 
 const nockUriTemplate = (baseUrl: string) => {
