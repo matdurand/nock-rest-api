@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.8](https://github.com/matdurand/nock-uri-template/compare/v0.1.6...v0.1.8) (2019-08-27)
+
+### Bug Fixes
+
+- add URL import for node 8 ([4a29d0a](https://github.com/matdurand/nock-uri-template/commit/4a29d0a)), closes [#3](https://github.com/matdurand/nock-uri-template/issues/3)
+
+### Features
+
+- support path prefix in base url ([bf5fba2](https://github.com/matdurand/nock-uri-template/commit/bf5fba2)), closes [#1](https://github.com/matdurand/nock-uri-template/issues/1)
+
 ### [0.1.7](https://github.com/matdurand/nock-uri-template/compare/v0.1.6...v0.1.7) (2019-08-22)
 
 ### Features
