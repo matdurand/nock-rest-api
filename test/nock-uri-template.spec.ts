@@ -95,7 +95,7 @@ describe("nock-uri-template", () => {
       { id: "3", name: "Screwdriver", category: "tool" }
     ];
     const scope = nockUriTemplate("http://localhost:4001")
-      .get("/api/products{?category}")
+      .get("/api/products{?category}{&anotherParam}")
       .replyOnce(
         (params: any): any => {
           return {
@@ -109,7 +109,7 @@ describe("nock-uri-template", () => {
       );
 
     const response = await axios.get(
-      "http://localhost:4001/api/products?category=tool"
+      "http://localhost:4001/api/products?category=tool&anotherParam=1"
     );
 
     expect(response.data.length).toBe(2);
@@ -123,7 +123,9 @@ describe("nock-uri-template", () => {
       name: "Screwdriver",
       category: "tool"
     });
-    expect(scope.forParams({ category: "tool" }).times()).toBe(1);
+    expect(
+      scope.forParams({ category: "tool", anotherParam: "1" }).times()
+    ).toBe(1);
   });
 
   it("should match the right url when declaring multiple nested urls", async () => {
