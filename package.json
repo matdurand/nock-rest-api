@@ -38,7 +38,7 @@
     "lodash": "^4.17.15",
     "prettier": "1.15.2",
     "rollup-plugin-typescript2": "0.22.1",
-    "semantic-release": "^15.13.20",
+    "semantic-release": "^17.2.3",
     "standard-version": "^7.0.0",
     "ts-jest": "24.0.0",
     "typescript": "3.5.3"
